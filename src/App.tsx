@@ -10,11 +10,11 @@ import routerBindings, {
 import dataProvider from "@refinedev/simple-rest";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ColorModeContextProvider } from "./contexts/color-mode";
+import { MuiInferencer } from '@refinedev/inferencer/mui';
 
 function App() {
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
@@ -24,6 +24,15 @@ function App() {
               notificationProvider={notificationProvider}
               routerProvider={routerBindings}
               dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+              resources={[
+                {
+                  name: "blog_posts",
+                  list: "/blog-posts",
+                  show: "/blog-posts/show/:id",
+                  create: "/blog-posts/create",
+                  edit: "/blog-posts/edit/:id",
+                },
+              ]}
               options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
@@ -31,6 +40,21 @@ function App() {
             >
               <Routes>
                 <Route index element={<WelcomePage />} />
+                <Route path="blog-posts">
+                  <Route index element={<MuiInferencer />} />
+                  <Route
+                    path="show/:id"
+                    element={<MuiInferencer />}
+                  />
+                  <Route
+                    path="edit/:id"
+                    element={<MuiInferencer />}
+                  />
+                  <Route
+                    path="create"
+                    element={<MuiInferencer />}
+                  />
+                </Route>
               </Routes>
               <RefineKbar />
               <UnsavedChangesNotifier />
